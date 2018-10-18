@@ -1,0 +1,36 @@
+server:
+  port: 8012
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://dev.tss.com:8080/eureka/
+
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      serviceId: account
+    api-b:
+      path: /api-b/**
+      serviceId: student
+    api-c:
+      path: /api-c/**
+      serviceId: teacher
+    # \u7B80\u5199\uFF0C\u540C\u4E0A
+    experimenter: /api-d/**
+    # \u591A\u5B9E\u4F8B\u914D\u7F6E\uFF0C\u672A\u7ED3\u5408eureka\u65F6
+#    api-mult:
+#      path: /api-mult/**
+#ribbon:
+#  eureka:
+#    enabled: false
+#api-mult:
+#  ribbon:
+#    listOfServers: http://dev.tss.com:8090,http://dev.tss.com:8091
