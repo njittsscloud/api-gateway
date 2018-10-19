@@ -13,10 +13,17 @@ eureka:
       defaultZone: http://dev.tss.com:8080/eureka/
 
 zuul:
+  # 忽略表达式
+  ignored-patterns: /**/index.html
+  # 路由前缀
+  prefix: /api
+  # 关闭移除代理前缀
+  strip-prefix: false
   routes:
     api-a:
       path: /api-a/**
       serviceId: account
+      # strip-prefix: false
     api-b:
       path: /api-b/**
       serviceId: student
@@ -25,6 +32,8 @@ zuul:
       serviceId: teacher
     # \u7B80\u5199\uFF0C\u540C\u4E0A
     experimenter: /api-d/**
+  
+  
     # \u591A\u5B9E\u4F8B\u914D\u7F6E\uFF0C\u672A\u7ED3\u5408eureka\u65F6
 #    api-mult:
 #      path: /api-mult/**
