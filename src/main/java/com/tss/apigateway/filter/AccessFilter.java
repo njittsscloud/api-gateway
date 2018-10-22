@@ -2,9 +2,10 @@ package com.tss.apigateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.exception.ZuulException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ public class AccessFilter extends ZuulFilter {
     @Override
     public String filterType() {
         // 请求路由之前执行
-        return "pre";
+        return FilterConstants.PRE_TYPE;
     }
 
     @Override
@@ -30,21 +31,26 @@ public class AccessFilter extends ZuulFilter {
     }
 
     @Override
-    public Object run() throws ZuulException {
+    public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
+        try {
+            HttpServletRequest request = ctx.getRequest();
+            LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
 
+            Object accessToken = request.getParameter("accessToken");
+            if (accessToken == null) {
+                LOG.warn("access token is empty");
+                ctx.setSendZuulResponse(false);
+                ctx.setResponseStatusCode(401);
+                return null;
+            }
+            LOG.info("access token ok");
 
-        LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
+            int i = 1 / 0;
 
-        Object accessToken = request.getParameter("accessToken");
-        if (accessToken == null) {
-            LOG.warn("access token is empty");
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
             return null;
+        } catch (Exception e) {
+            throw new ZuulRuntimeException(e);
         }
-        LOG.info("access token ok");
-        return null;
     }
 }
