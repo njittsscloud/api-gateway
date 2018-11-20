@@ -70,6 +70,19 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!-- common -->
+        <dependency>
+            <groupId>com.tss</groupId>
+            <artifactId>basic-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tss</groupId>
+            <artifactId>basic-site</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
