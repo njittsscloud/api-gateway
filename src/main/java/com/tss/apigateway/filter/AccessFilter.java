@@ -45,9 +45,6 @@ public class AccessFilter extends ZuulFilter {
                 return null;
             }
             LOG.info("access token ok");
-
-            int i = 1 / 0;
-
             return null;
         } catch (Exception e) {
             throw new ZuulRuntimeException(e);
