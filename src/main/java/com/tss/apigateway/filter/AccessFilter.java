@@ -8,6 +8,7 @@ import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Component
@@ -37,14 +38,20 @@ public class AccessFilter extends ZuulFilter {
             HttpServletRequest request = ctx.getRequest();
             LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
 
-            Object accessToken = request.getParameter("accessToken");
-            if (accessToken == null) {
-                LOG.warn("access token is empty");
-                ctx.setSendZuulResponse(false);
-                ctx.setResponseStatusCode(401);
-                return null;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null && cookies.length > 0) {
+
             }
-            LOG.info("access token ok");
+
+
+//            Object accessToken = request.getParameter("accessToken");
+//            if (accessToken == null) {
+//                LOG.warn("access token is empty");
+//                ctx.setSendZuulResponse(false);
+//                ctx.setResponseStatusCode(401);
+//                return null;
+//            }
+//            LOG.info("access token ok");
             return null;
         } catch (Exception e) {
             throw new ZuulRuntimeException(e);
