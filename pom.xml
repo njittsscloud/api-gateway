@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.16.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>com.tss.api-gateway</groupId>
@@ -72,12 +72,6 @@
         </dependency>
         
         <!-- common -->
-        <dependency>
-            <groupId>com.tss</groupId>
-            <artifactId>basic-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>com.tss</groupId>
             <artifactId>basic-site</artifactId>

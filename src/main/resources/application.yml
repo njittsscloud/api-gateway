@@ -3,14 +3,14 @@ server:
 
 spring:
   application:
-    name: api-gateway
+    name: tss-api-gateway
 
 eureka:
   client:
     healthcheck:
       enabled: true
     serviceUrl:
-      defaultZone: http://dev.tss.com:8090/eureka/
+      defaultZone: http://localhost:8090/eureka/
 
 zuul:
   # 忽略表达式
@@ -19,19 +19,21 @@ zuul:
   prefix: /api/v1
   # 关闭移除代理前缀
 #  strip-prefix: false
+  sensitiveHeaders: Set-Cookie,Authorization
   routes:
     api-a:
-      path: /account/**
-      serviceId: account
+      path: /api-a/**
+      serviceId: TSS-STUDENT
       # strip-prefix: false
     api-b:
       path: /api-b/**
-      serviceId: student
+      serviceId: TSS-TEACHER
     api-c:
       path: /api-c/**
-      serviceId: teacher
-    # \u7B80\u5199\uFF0C\u540C\u4E0A
-    experimenter: /api-d/**
+      serviceId: TSS-SYY
+    api-d:
+      path: /api-d/**
+      serviceId: TSS-ADMIN
   
   
     # \u591A\u5B9E\u4F8B\u914D\u7F6E\uFF0C\u672A\u7ED3\u5408eureka\u65F6
