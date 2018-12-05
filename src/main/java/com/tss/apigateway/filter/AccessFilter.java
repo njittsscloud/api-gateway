@@ -10,10 +10,14 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class AccessFilter extends ZuulFilter {
     private static final Logger LOG = LoggerFactory.getLogger(AccessFilter.class);
+
+    private static final List<String> URI_PREFIX = Arrays.asList("api-a", "api-b", "api-c", "api-d");
 
     @Override
     public String filterType() {
@@ -37,6 +41,19 @@ public class AccessFilter extends ZuulFilter {
         try {
             HttpServletRequest request = ctx.getRequest();
             LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
+
+            String uri = request.getRequestURI();
+            for (String prefix : URI_PREFIX) {
+                if (uri.contains(prefix)) {
+                    if (prefix.lastIndexOf("login") != -1) {
+                        
+                    } 
+                }
+            }
+            
+            System.out.println("uri：" + request.getRequestURI());
+
+            String authorization = request.getHeader("Authorization");
 
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
