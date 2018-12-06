@@ -62,9 +62,20 @@ security:
       token-info-uri: /oauth/check_token
   filter-order: 1
   
+# custom config
+auth-server:
+  serviceId: TSS-AUTH-SERVER
+  
 auth:
   permitall:
     -
       pattern: /login/**
     -
       pattern: /web/**
+      
+authentication: 
+  oauth: 
+    clientId: app
+    clientSecret: app_20181206
+    tokenValidityInSeconds: 1800
+    scope: web
