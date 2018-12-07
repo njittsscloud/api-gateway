@@ -1,7 +1,10 @@
 package com.tss.apigateway.service;
 
+import com.tss.apigateway.FeignHeadConfiguration;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
@@ -10,7 +13,7 @@ import java.util.Map;
  * @author: MQG
  * @date: 2018/12/6
  */
-@FeignClient(value = "${auth-server.serviceId}")
+@FeignClient(value = "${auth-server.serviceId}", configuration = FeignHeadConfiguration.class)
 public interface Oauth2Service {
 
     /**
@@ -21,7 +24,7 @@ public interface Oauth2Service {
      * @return
      * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
      */
-    @PostMapping(path = "/oauth/token")
+    @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
     Map<String, Object> postAccessToken(@RequestParam Map<String, String> parameters);
 
     /**

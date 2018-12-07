@@ -21,11 +21,6 @@ zuul:
 #  strip-prefix: false
   sensitiveHeaders: Cookie,Set-Cookie
   routes:
-    login:
-      # /student/login /teacher/login /syy/login /admin/login
-      path: /**/login
-      serviceId: TSS-AUTH
-    teacher-login:
     api-a:
       path: /api-a/**
       serviceId: TSS-STUDENT
@@ -51,28 +46,22 @@ zuul:
 #  ribbon:
 #    listOfServers: http://dev.tss.com:8090,http://dev.tss.com:8091
 
-security:
-  oauth2:
-    client:
-      accessTokenUri: /oauth/token
-      clientId: frontend
-      clientSecret: frontend
-    resource:
-      userInfoUri: /user
-      token-info-uri: /oauth/check_token
-  filter-order: 1
+feign: 
+  hystrix: 
+    enabled: false
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients: tss-api-gateway
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+
   
 # custom config
 auth-server:
   serviceId: TSS-AUTH-SERVER
   
-auth:
-  permitall:
-    -
-      pattern: /login/**
-    -
-      pattern: /web/**
-      
 authentication: 
   oauth: 
     clientId: app

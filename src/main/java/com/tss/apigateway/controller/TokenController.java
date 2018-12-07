@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,9 @@ public class TokenController {
      * @return
      */
     @PostMapping("/sys/login")
-    public Map<String, Object> login(@JsonParam(validation = true) UserLoginReqVO param) {
+    public Map<String, Object> login(HttpServletRequest request, @JsonParam(validation = true) UserLoginReqVO param) {
+        String authorization = request.getHeader("Authorization");
+
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
         parameters.put(OAuth2Utils.CLIENT_ID, oauth2Properties.getClientId());
