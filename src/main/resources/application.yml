@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: tss-api-gateway
+  zipkin:
+    base-url: http://localhost:8093
+    sleuth:
+      sampler:
+        # 100%的概率将链路的数据上传给Zipkin Server，默认0.1
+        percentage: 1.0
 
 eureka:
   client:
@@ -34,6 +40,9 @@ zuul:
     api-d:
       path: /api-a/**
       serviceId: TSS-ADMIN
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
       
   
     # \u591A\u5B9E\u4F8B\u914D\u7F6E\uFF0C\u672A\u7ED3\u5408eureka\u65F6
