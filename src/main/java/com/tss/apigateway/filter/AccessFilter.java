@@ -2,6 +2,7 @@ package com.tss.apigateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
@@ -10,18 +11,16 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class AccessFilter extends ZuulFilter {
     private static final Logger LOG = LoggerFactory.getLogger(AccessFilter.class);
 
-    private static final List<String> URI_PREFIX = Arrays.asList("api-a", "api-b", "api-c", "api-d");
+    private static final String KEY_ACCESS_TOKEN = "access_token";
 
+    // 请求路由之前执行
     @Override
     public String filterType() {
-        // 请求路由之前执行
         return FilterConstants.PRE_TYPE;
     }
 
@@ -42,36 +41,27 @@ public class AccessFilter extends ZuulFilter {
             HttpServletRequest request = ctx.getRequest();
             LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
 
-            String uri = request.getRequestURI();
-            for (String prefix : URI_PREFIX) {
-                if (uri.contains(prefix)) {
-                    if (prefix.lastIndexOf("login") != -1) {
-                        
-                    } 
-                }
-            }
-            
-            System.out.println("uri：" + request.getRequestURI());
-
-            String authorization = request.getHeader("Authorization");
+            String access_token = request.getHeader("access_token");
 
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
-
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals(KEY_ACCESS_TOKEN) && StringUtils.isNotBlank(cookie.getValue())) {
+                        return null;
+                    }
+                }
             }
 
-
-//            Object accessToken = request.getParameter("accessToken");
-//            if (accessToken == null) {
-//                LOG.warn("access token is empty");
-//                ctx.setSendZuulResponse(false);
-//                ctx.setResponseStatusCode(401);
-//                return null;
-//            }
-//            LOG.info("access token ok");
+            this.return401(ctx);
             return null;
         } catch (Exception e) {
             throw new ZuulRuntimeException(e);
         }
+    }
+
+    private void return401(RequestContext ctx) {
+        LOG.warn("access token is empty");
+        ctx.setSendZuulResponse(false);
+        ctx.setResponseStatusCode(401);
     }
 }
