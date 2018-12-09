@@ -3,7 +3,6 @@ package com.tss.apigateway.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.tss.basic.common.util.JsonUtil;
-import com.tss.basic.site.response.DefaultResponse;
 import com.tss.basic.site.response.ErrorDataResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class AccessFilter extends ZuulFilter {
