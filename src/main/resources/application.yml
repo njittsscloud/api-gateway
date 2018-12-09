@@ -19,20 +19,20 @@ zuul:
   prefix: /api/v1
   # 关闭移除代理前缀
 #  strip-prefix: false
-  sensitiveHeaders: Cookie,Set-Cookie
+  sensitiveHeaders: Set-Cookie
   routes:
     api-a:
-      path: /api-a/**
+      path: /api-s/**
       serviceId: TSS-STUDENT
       # strip-prefix: false
     api-b:
-      path: /api-b/**
+      path: /api-t/**
       serviceId: TSS-TEACHER
     api-c:
-      path: /api-c/**
+      path: /api-sy/**
       serviceId: TSS-SYY
     api-d:
-      path: /api-d/**
+      path: /api-a/**
       serviceId: TSS-ADMIN
       
   
