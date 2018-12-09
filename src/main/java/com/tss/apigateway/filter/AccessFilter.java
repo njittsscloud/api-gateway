@@ -39,9 +39,7 @@ public class AccessFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         try {
             HttpServletRequest request = ctx.getRequest();
-            LOG.info("send {} request to {}, queryString={}", request.getMethod(), request.getRequestURL().toString(), request.getQueryString());
-
-            String access_token = request.getHeader("access_token");
+            LOG.info("send {} request to {}", request.getMethod(), request.getRequestURL().toString());
 
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
